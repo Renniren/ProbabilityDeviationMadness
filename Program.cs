@@ -8,7 +8,7 @@ Console.WindowHeight = 30;
 Console.BufferWidth = 75;
 
 //Shorthand for Console.WriteLine and Clear. Not entirely necessary, just makes output a little easier.
-void print(string what) { Console.WriteLine(what+"\n"); }
+void print(string? what) { Console.WriteLine(what+"\n"); }
 void clear() { Console.Clear(); }
 bool YesOrNo(string command)
 {
@@ -29,6 +29,7 @@ bool YesOrNo(string command)
 reset:
 int pick;
 float result;
+float storedMean = 0;
 float storedDeviation = 0;
 NormalDist Distribution;
 List<float> dataParsed = new();
@@ -65,32 +66,55 @@ switch (pick)
 		float deviation = (float)Math.Sqrt(SquareSum / dataParsed.Count);
 		bool yes;
 
-		print("Standard Deviation: " + deviation.ToString());
-		print("Store result? This will overwrite the previously-saved deviation.");
+		print("Standard Deviation: " + deviation);
+		print("Mean: " + average);
+		print("Store result? This will overwrite the previously-saved data.");
 
 		yes = YesOrNo(Console.ReadLine());
 		if (yes)
-        {
+		{
 			storedDeviation = deviation;
-			print("Stored " + deviation.ToString() + ".");
-			Console.Title = "Probability/Distributions Calculator - " + deviation.ToString();
+			print("Stored " + deviation + ".");
+			storedMean = average;
+			Console.Title = "Probability/Distributions Calculator - D:" + deviation + " M: " + average;
 		}
 
-        print("Is that all?");
+		goto ask;
+
+	case 2:
+		print("Use stored variables?");
 		yes = YesOrNo(Console.ReadLine());
-		if (!yes)
+		if (yes)
         {
-			goto start;
+			Distribution = new(storedMean, storedDeviation);
+			print("Mean: " + Distribution.Mean);
+			print("Variance: " + Distribution.Variance);
         }
 		else
         {
-			break;
+			goto ask;
         }
 
+		print("Calculate PDF and CDF?");
+		yes = YesOrNo(Console.ReadLine());
 
-	case 2:
+		if(yes)
+        {
+			print("Enter value for PDF:");
+			float.TryParse(Console.ReadLine(), out float entered);
+			print("PDF: " + entered);
 
-		break;
+			print("Enter value for CDF:");
+			float.TryParse(Console.ReadLine(), out float entered2);
+			print("CDF: " + entered2);
+			goto ask;
+		}
+		else
+        {
+			goto ask;
+		}
+
+        break;
 
 	case 3:
 		goto reset;
@@ -99,6 +123,20 @@ switch (pick)
 	case 4: break;
 }
 
+
+
 end:
 return 0;
+
+ask:
+print("Is that all?");
+bool yes2 = YesOrNo(Console.ReadLine());
+if (!yes2)
+{
+	goto start;
+}
+else
+{
+	goto end;
+}
 
