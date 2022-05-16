@@ -79,7 +79,7 @@ switch (pick)
 			Console.Title = "Probability/Distributions Calculator - D:" + deviation + " M: " + average;
 		}
 
-		goto ask;
+		goto end_prompt;
 
 	case 2:
 		print("Use stored variables?");
@@ -92,7 +92,7 @@ switch (pick)
         }
 		else
         {
-			goto ask;
+			goto end_prompt;
         }
 
 		print("Calculate PDF and CDF?");
@@ -102,33 +102,28 @@ switch (pick)
         {
 			print("Enter value for PDF:");
 			float.TryParse(Console.ReadLine(), out float entered);
-			print("PDF: " + entered);
+			print("PDF: " + Distribution.PDF(entered));
 
 			print("Enter value for CDF:");
 			float.TryParse(Console.ReadLine(), out float entered2);
-			print("CDF: " + entered2);
-			goto ask;
+			print("CDF: " + Distribution.CDF(entered2));
+			goto end_prompt;
 		}
 		else
         {
-			goto ask;
+			goto end_prompt;
 		}
-
-        break;
 
 	case 3:
 		goto reset;
-		break;
 
 	case 4: break;
 }
 
-
-
 end:
 return 0;
 
-ask:
+end_prompt:
 print("Is that all?");
 bool yes2 = YesOrNo(Console.ReadLine());
 if (!yes2)
@@ -139,4 +134,3 @@ else
 {
 	goto end;
 }
-
