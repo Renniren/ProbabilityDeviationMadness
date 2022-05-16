@@ -49,6 +49,7 @@ int.TryParse(Console.ReadLine(), out pick);
 switch (pick)
 {
 	case 1:
+		clear();
 		print("Enter data:");
 		string[] data = Console.ReadLine().Split(',', ' ');
 		
@@ -87,8 +88,6 @@ switch (pick)
 		if (yes)
         {
 			Distribution = new(storedMean, storedDeviation);
-			print("Mean: " + Distribution.Mean);
-			print("Variance: " + Distribution.Variance);
         }
 		else
         {
@@ -101,12 +100,23 @@ switch (pick)
 		if(yes)
         {
 			print("Enter value for PDF:");
-			float.TryParse(Console.ReadLine(), out float entered);
+			double.TryParse(Console.ReadLine(), out double entered);
 			print("PDF: " + Distribution.PDF(entered));
 
 			print("Enter value for CDF:");
-			float.TryParse(Console.ReadLine(), out float entered2);
+			double.TryParse(Console.ReadLine(), out double entered2);
 			print("CDF: " + Distribution.CDF(entered2));
+
+			/*print("Round values?");
+			bool yes3 = YesOrNo(Console.ReadLine());
+			if (yes3)
+            {
+				print("Rounded PDF: " + Math.Round(Distribution.PDF(entered)));
+				print("Rounded CDF: " + Math.Round(Distribution.CDF(entered2)));
+            }*/
+
+			print("Mean: " + Distribution.Mean);
+			print("Variance: " + Distribution.Variance);
 			goto end_prompt;
 		}
 		else
